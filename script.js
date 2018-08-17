@@ -7,7 +7,7 @@ console.log('2 - quitter');
 
   
   		let choix = Number(prompt('Veuillez selectionner un chiffre'));
-  		let nomJoueur;
+  		let NomduJour;
   		let temoin = true;
 
 
@@ -69,12 +69,13 @@ function Personnage(monNom,maVie,maForce) {
 		const decritJoueur = 'Le joueur ' + this.nom + ' à la vie ' + this.vie + ' et une force ' + this.force ;
 		return decritJoueur;
 	};
-	Personnage.prototype.deplacer = function(deplacerDansPiece){
-			if(deplacerDansPiece.etatPorte == temoin && deplacerDansPiece.JoueurPiece == ' '){
-				deplacerDansPiece.JoueurPiece = nomJoueur;
-
+	Personnage.prototype.deplacer = function(pieceDepart,pieceDarrivee){
+			if((pieceDarrivee.etatPorte == true) && (pieceDarrivee.JoueurPiece == '')){
+				pieceDarrivee.JoueurPiece = joueur.nom;
+				pieceDepart.JoueurPiece = '';
+				console.log('Nous sommes dans le if');
 			}
-			return deplacerDansPiece.JoueurPiece;
+			return pieceDarrivee.JoueurPiece;
 	}
 	Personnage.prototype.combattre = function(){
 		
@@ -91,7 +92,7 @@ let piece1 = new Piece('Jardin','',joueur.nom);
 	  		 piece1.etatPorte = true;
 let piece2 = new Piece('Suite',ennemi.nom,'');
 			 piece2.contientObjet.push(Armes.nomObjet);
-			 piece2.etatPorte = false;
+			 piece2.etatPorte = true;
 let piece3 = new Piece('Fontaine','','');
 			 piece3.contientObjet.push(Armes.nomObjet);
 			 piece3.etatPorte = false;
@@ -136,21 +137,23 @@ switch(choix){
   						if(choixPiece >= 1 && choixPiece <= 5){
   							if(choixPiece === 1 && piece1.JoueurPiece === joueur.nom){
 		  						console.log('Oupss!!!!! Le joueur ' + joueur.nom + ' ' + ' se trouve deja dans cette piece ' + piece1.nomPiece);
-		  					}else if(choixPiece === 2 && piece2.etatPorte === temoin){
-  							console.log(joueur.nom + ' ' + ' se trouve dans la piece' + piece2.nomPiece)
-
-	  						}else{
-			  					console.log('nombre ' + choixPiece + ' ne se trouve pas dans l\'interval');
+		  					}else if((choixPiece === 2) && (piece2.etatPorte === true) && (piece2.JoueurPiece == '')){
+		  						console.log('nous sommes dans le premier if');
+		  						joueur.deplacer(piece1,piece2);
+  								console.log(piece2.JoueurPiece + ' ' + ' se trouve dans la piece' + piece2.nomPiece)
 	  						}
   						}
+  						else{
+			  					console.log('nombre ' + choixPiece + ' ne se trouve pas dans l\'interval');
+	  					}
   		    break;
   						
   			case 2: 
-  				console.log('2 -lqksjdflqjsdl');
+  				console.log('application fermée');
+
   				break;
   			default :
   				console.log('le chiffre ' + choix + ' ' + 'n\'est pas dans le menu'); 
-  				console.log('application fermée');
   			
 }
 
