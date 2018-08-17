@@ -9,9 +9,6 @@ console.log('2 - quitter');
   		let choix = Number(prompt('Veuillez selectionner un chiffre'));
   		let nomJoueur;
 
-  		
- 
-
 
 
 //Creation Objet**********************************
@@ -39,14 +36,16 @@ function Clef(){
 	this.nomClef = 'maClef';
 }
 	//-----Les methodes de l'objet "Clef"----------
-	Clef.prototype.ouvrir = function(){
-			if(Piece.etatPorte == false){
-				console.log(Clef.nomClef + ' ouvre la porte de la piece ' + Piece.nomPiece);
+	Clef.prototype.ouvrir = function(piece){
+		let 
+			if(piece.etatPorte == false){
+				
+				//console.log(Clef.nomClef + ' ouvre la porte de la piece ' + Piece.nomPiece);
 			}else{
 				console.log('La porte est ouverte');
 			}
 	}
-	
+ 
 //Creation de l'Objet Piece********************************
 function Piece (nomPiece,ennemiPiece){
  	this.nomPiece = nomPiece;
@@ -61,7 +60,7 @@ Piece.prototype.fermer = function(){
 Piece.prototype.entrer = function(){
 		let temoin = true;
 		if(Clef.ouvrir() == temoin){
-			console.log(joueur.nom + ' est dans la piece ' + ' ' + Piece.nomPiece);
+			//console.log(joueur.nom + ' est dans la piece ' /*+ ' ' + Piece.nomPiece*/);
 		}
 }
 
@@ -121,25 +120,21 @@ switch(choix){
   				let NomduJour = prompt('Le nom du joueur');
   					if(NomduJour){
   						joueur.nom = NomduJour;
-  						console.log('Le nom du joueur est : ' + joueur.nom);
+  						console.log('Le nom du joueur est : ' + joueur.decrire() + ' et vous etes dans la piece ' + piece1.nomPiece);
   					}
-  					let choixPiece = Number(prompt('Choisissez une piece de 1 à 5 pour debuter la partie'));
-  					if(choixPiece === 1){
-  						if(piece1.etatPorte == true)
+  					//let choixPiece = Number(prompt('Choisissez une piece de 1 à 5 pour debuter la partie'));
+  					/*if(choixPiece === 2){
+  						if(piece1.etatPorte == false)
   						{
-  							
+  							Clef.ouvrir();
+  							console.log('la piece ' + piece1.nomPiece + ' vient d\'etre ouverte');		
+  						}else{
+  							  console.log('vous etes dans la piece ' + piece1.nomPiece);
   						}
-  						console.log('vous etes  dans la piece ' + piece1.nomPiece);
-  					}
-  					/*switch(choixPiece){
-  						case 1: 
-  						console.log('1 - Piece ' + ' ' + piece1.nomPiece);
-  						console.log('2 - Piece ' + ' ' + piece2.nomPiece);
-  						console.log('3 - Piece ' + ' ' + piece3.nomPiece);
-  						console.log('4 - Piece ' + ' ' + piece4.nomPiece);
-  						console.log('5 - Piece ' + ' ' + piece5.nomPiece);
-
+  					}else{
+  						console.log('vous n\'etes pas l\'interval');
   					}*/
+  					
   				break;
   			case 2: 
   				console.log('2 -lqksjdflqjsdl');
