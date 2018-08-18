@@ -46,8 +46,19 @@ function Piece (nomPiece,ennemiPiece,nomjoueur){
  	this.JoueurPiece = nomjoueur;
  }
 //----Les methodes de l'Objet "Piece"----
-Piece.prototype.fermer = function(){
-
+Piece.prototype.existEnnemi = function(){
+	if(this.ennemiPiece == ''){
+		console.log('vous n\'avez pas d\'ennemi dans cette piece');
+	}else{
+		console.log('avez un ennemi ' + this.ennemiPiece);
+	}
+}
+Piece.prototype.existArme = function(){
+	if(this.contientObjet == ''){
+		console.log('vous n\'avez pas d\'arme dans cette piece');
+	}else{
+		console.log('avez des armes : ' + this.contientObjet);
+	}
 }
 Piece.prototype.entrer = function(){
 		let temoin = true;
@@ -123,38 +134,55 @@ function Clef(maCle){
 	}
 	const clefMagic = Clef('maClefMigic',true);
 
+
+//function pour pour le menu
+function menu(){
+		console.log('2 - Piece ' + piece5.nomPiece);
+  		console.log(' 3 - Piece ' + piece2.nomPiece);
+		console.log('4 - Piece ' + piece3.nomPiece);
+		console.log('5 - Piece ' + piece4.nomPiece);
+}
 switch(choix){
   			case 1: 
   				console.log('---Pour commencer le jeu, inscriver vous');
   				console.log('-- Le nom de joueur --');		
   				let NomduJour = prompt('Le nom du joueur');
+  				menu();
+
   				if(NomduJour){
   					joueur.nom = NomduJour;
   					console.log('Le nom du joueur est : ' + joueur.decrire() + ' et vous etes dans la piece ' + piece1.nomPiece);
   				}
-  					console.log('2 - Piece ' + piece2.nomPiece);
-  					console.log(' 3 - Piece ' + piece3.nomPiece);
-  					console.log('4 - Piece ' + piece4.nomPiece);
-  					console.log('5 - Piece ' + piece5.nomPiece);
+  					//menu();
 
   					let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
   						piece1.JoueurPiece = NomduJour;
   						if(choixPiece >= 1 && choixPiece <= 5){
+
   							if(choixPiece === 1 && piece1.JoueurPiece === joueur.nom){
-		  						console.log('Oupss!!!!! Le joueur ' + joueur.nom + ' ' + ' se trouve deja dans cette piece ' + piece1.nomPiece);		  					
+		  						console.log('Oupss!!!!! Le joueur ' + joueur.nom + ' ' + ' se trouve deja dans cette piece ' + piece1.nomPiece);
+		  						menu();
+  								let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
 		  					}
 
 		  					else if((choixPiece === 2) && (piece5.etatPorte === true) && (piece5.JoueurPiece == '')){
 		  						joueur.deplacer(piece1,piece5);
-  								console.log(piece5.JoueurPiece  + ' se trouve dans la piece ' + piece5.nomPiece + ' et vous avez comme arme ' + piece5.contientObjet);	  						
+  								console.log(piece5.JoueurPiece  + ' se trouve dans la piece ' + piece5.nomPiece );	 
+  								//let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
+
 	  						}
 
-	  						else if((choixPiece === 3) && (piece3.etatPorte === true) && (piece3.JoueurPiece == '')){
+	  						else if((choixPiece === 3) && (piece2.etatPorte === true) && (piece2.JoueurPiece == '')){
+		  						joueur.deplacer(piece1,piece2);
+  								console.log(piece2.JoueurPiece  + ' se trouve dans la piece ' + piece2.nomPiece);
+  							}
+
+  							else if((choixPiece === 4) && (piece3.etatPorte === true) && (piece3.JoueurPiece == '')){
 		  						joueur.deplacer(piece1,piece3);
   								console.log(piece3.JoueurPiece  + ' se trouve dans la piece ' + piece3.nomPiece);
   							}
 
-  							else if((choixPiece === 4) && (piece4.etatPorte === true) && (piece4.JoueurPiece == '')){
+  							else if((choixPiece === 5) && (piece4.etatPorte === true) && (piece4.JoueurPiece == '')){
 		  						joueur.deplacer(piece1,piece4);
   								console.log(piece4.JoueurPiece  + ' se trouve dans la piece ' + piece4.nomPiece);
   							}
