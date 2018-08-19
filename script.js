@@ -48,7 +48,7 @@ function Piece (nomPiece,ennemiPiece,nomjoueur){
 //----Les methodes de l'Objet "Piece"----
 
 Piece.prototype.decrirePiece = function(){
-	var description = ' les objects : ' + this.contientObjet + ',  l\'etat de la porte ' + this.etatPorte + ' et son ennemi' + this.ennemiPiece ;
+	var description = ' les objects : ' + this.contientObjet + ',  l\'etat de la porte ' + this.etatPorte + ' et son ennemi' + ' ' + this.ennemiPiece ;
 	 return description;
 }
 Piece.prototype.entrer = function(){
@@ -80,15 +80,17 @@ function Personnage(monNom,maVie,maForce) {
 			}
 			return pieceDarrivee.JoueurPiece;
 	}
-	Personnage.prototype.combattre = function(){
-		
-	}
-	Personnage.prototype.prendreObjet = function(objetPris){
+	
+	Personnage.prototype.prendreObjet = function(nomPiece){
 
-		if(objetPris.contientObjet){
-				  joueur.objets = monArme.nomObjet;
+		if(monArme.nomObjet == nomPiece.contientObjet){
+				  joueur.objets = [];
+				  console.log('le joueur ' + joueur.nom + ' à : 0 arme ');
+		}else{
+			joueur.objets = monArme.nomObjet;
+		    console.log('le joueur ' + joueur.nom + ' à pris les armes : ' + joueur.objets);
 		}
-		return objetPris.objets ;
+		return joueur.objets ;
 	}
 	//Creation de joueur
 	let joueur = new Personnage('',50,20);
@@ -136,6 +138,51 @@ function existEnnemi(piece){
 		console.log('vous n\'avez pas d\'arme dans cette piece');
 	}
 }
+function deplacement(){
+	let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
+  		piece1.JoueurPiece = NomduJour;
+  		if(choixPiece >= 1 && choixPiece <= 5){
+	
+	  		if((choixPiece === 2) && (piece5.etatPorte === true) && (piece5.JoueurPiece == '')){
+			   joueur.deplacer(piece1,piece5);
+	  		   console.log(piece5.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece5.nomPiece + 
+	  		   '\nDescription : ' + '  ' + piece5.decrirePiece());	
+	  		   		joueur.prendreObjet(piece5);
+	  		   		combattre();
+			}
+	  		else if((choixPiece === 3) && (piece2.etatPorte === true) && (piece2.JoueurPiece == '')){
+			  	joueur.deplacer(piece1,piece2);
+			  	console.log(piece2.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece2.nomPiece + 
+	  		   '\nDescription : ' + '  ' + piece2.decrirePiece());	
+	  		   		joueur.prendreObjet(piece2);
+	  		   		combattre();
+	  		}
+
+	  		else if((choixPiece === 4) && (piece3.etatPorte === true) && (piece3.JoueurPiece == '')){
+				joueur.deplacer(piece1,piece3);
+	  			console.log(piece3.JoueurPiece  + ' se trouve dans la piece ' + ' ' + piece3.nomPiece);
+	  		}
+
+	  		else{
+	  			console.log('le jour de gloire est arrivée');
+	  		}
+	  	}
+	  	else{
+		 		console.log('nombre ' + choixPiece + ' ne se trouve pas dans l\'interval');
+	  	}
+}
+function combattre(){
+	if((ennemi.force <= joueur.force) || (ennemi.force >= joueur.force) && (joueur.objets == monArme.nomObjet)){
+		joueur.vie += ennemi.vie - 10;
+		console.log(joueur.nom + ' attaque et tue ' + ennemi.nom);
+	}else if ((ennemi.force <= joueur.force) || (ennemi.force >= joueur.force) && (joueur.objets != monArme.nomObjet)) {
+		ennemi.vie += joueur.vie - 10;
+		console.log('Game Over');
+	}
+	else{
+		console.log('revoir le code');
+	}
+}
 switch(choix){
   			case 1: 
   				console.log('---Pour commencer le jeu, inscriver vous');
@@ -147,45 +194,8 @@ switch(choix){
   					console.log('Le nom du joueur est : ' + joueur.decrire() + ' et vous etes dans la piece ' + piece1.nomPiece);
   				}
   					menu();
-
-  					let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
-  						piece1.JoueurPiece = NomduJour;
-  						if(choixPiece >= 1 && choixPiece <= 5){
-
-  							if(choixPiece === 1 && piece1.JoueurPiece === joueur.nom){
-		  						console.log('Oupss!!!!! Le joueur ' + joueur.nom + ' ' + ' se trouve deja dans cette piece ' + piece1.nomPiece);
-		  						menu();
-  								//let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
-		  					}
-
-		  					else if((choixPiece === 2) && (piece5.etatPorte === true) && (piece5.JoueurPiece == '')){
-		  						joueur.deplacer(piece1,piece5);
-  								console.log(piece5.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece5.nomPiece + 
-  								'\nDescription : ' + piece5.decrirePiece());	
-  								if(){
-
-  								} 
-
-	  						}
-
-	  						else if((choixPiece === 3) && (piece2.etatPorte === true) && (piece2.JoueurPiece == '')){
-		  						joueur.deplacer(piece1,piece2);
-  								console.log(piece2.JoueurPiece  + ' se trouve dans la piece ' + piece2.nomPiece);
-  							}
-
-  							else if((choixPiece === 4) && (piece3.etatPorte === true) && (piece3.JoueurPiece == '')){
-		  						joueur.deplacer(piece1,piece3);
-  								console.log(piece3.JoueurPiece  + ' se trouve dans la piece ' + piece3.nomPiece);
-  							}
-
-  							else{
-  								console.log('le jour de gloire est arrivée');
-  							}
-  						}
-
-  						else{
-			  					console.log('nombre ' + choixPiece + ' ne se trouve pas dans l\'interval');
-	  					}
+  					deplacement();
+  						
   		    break;
   						
   			case 2: 
