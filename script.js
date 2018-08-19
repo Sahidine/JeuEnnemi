@@ -46,19 +46,10 @@ function Piece (nomPiece,ennemiPiece,nomjoueur){
  	this.JoueurPiece = nomjoueur;
  }
 //----Les methodes de l'Objet "Piece"----
-Piece.prototype.existEnnemi = function(){
-	if(this.ennemiPiece == ''){
-		console.log('vous n\'avez pas d\'ennemi dans cette piece');
-	}else{
-		console.log('avez un ennemi ' + this.ennemiPiece);
-	}
-}
-Piece.prototype.existArme = function(){
-	if(this.contientObjet == ''){
-		console.log('vous n\'avez pas d\'arme dans cette piece');
-	}else{
-		console.log('avez des armes : ' + this.contientObjet);
-	}
+
+Piece.prototype.decrirePiece = function(){
+	var description = ' les objects : ' + this.contientObjet + ',  l\'etat de la porte ' + this.etatPorte + ' et son ennemi' + this.ennemiPiece ;
+	 return description;
 }
 Piece.prototype.entrer = function(){
 		let temoin = true;
@@ -112,7 +103,7 @@ let piece2 = new Piece('Suite',ennemi.nom,'');
 let piece3 = new Piece('Fontaine','','');
 			 piece3.contientObjet.push(monArme.nomObjet);
 			 piece3.etatPorte = false;
-let piece5 = new Piece('Centrale','','');
+let piece5 = new Piece('Centrale',ennemi.nom,'');
 			 piece5.contientObjet.push(monArme.nomObjet);
 			 piece5.etatPorte = true;
 
@@ -138,6 +129,13 @@ function menu(){
   		console.log('3 - Piece ' + piece2.nomPiece);
 		console.log('4 - Piece ' + piece3.nomPiece);
 }
+function existEnnemi(piece){
+	if(ennemi.nomEnnemi ==  piece.ennemiPiece){
+		console.log('avez des armes : ' + piece.ennemiPiece);
+	}else{
+		console.log('vous n\'avez pas d\'arme dans cette piece');
+	}
+}
 switch(choix){
   			case 1: 
   				console.log('---Pour commencer le jeu, inscriver vous');
@@ -162,7 +160,11 @@ switch(choix){
 
 		  					else if((choixPiece === 2) && (piece5.etatPorte === true) && (piece5.JoueurPiece == '')){
 		  						joueur.deplacer(piece1,piece5);
-  								console.log(piece5.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece5.nomPiece );	 
+  								console.log(piece5.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece5.nomPiece + 
+  								'\nDescription : ' + piece5.decrirePiece());	
+  								if(){
+
+  								} 
 
 	  						}
 
