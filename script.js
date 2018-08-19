@@ -40,10 +40,10 @@ let ennemi = new EnnemiJeu('Gongoli', 'Zombie', 50, 20);
 //Creation de l'Objet Piece********************************
 function Piece (nomPiece,ennemiPiece,nomjoueur){
  	this.nomPiece = nomPiece;
- 	this.contientObjet = [];
- 	this.etatPorte = false;
  	this.ennemiPiece = ennemiPiece;
  	this.JoueurPiece = nomjoueur;
+ 	this.contientObjet = [];
+ 	this.etatPorte = false;
  }
 //----Les methodes de l'Objet "Piece"----
 
@@ -93,21 +93,21 @@ function Personnage(monNom,maVie,maForce) {
 		
 	}
 	//Creation de joueur
-	let joueur = new Personnage('',30,10);
+	let joueur = new Personnage('',40,80);
 
 //+++ Ajouter une piece +++
 let piece1 = new Piece('Jardin','',joueur.nom);
 	  		 piece1.contientObjet = ' ';
 	  		 piece1.etatPorte = true;
-let piece2 = new Piece('Suite',ennemi.nom,'');
-			 piece2.contientObjet = '';
+let piece2 = new Piece('Centrale',ennemi.nomEnnemi,'');
+			 piece2.contientObjet.push(monArme.nomObjet);
 			 piece2.etatPorte = true;
-let piece3 = new Piece('Fontaine','','');
+let piece3 = new Piece('Suite','','');
 			 piece3.contientObjet = '';
-			 piece3.etatPorte = false;
-let piece5 = new Piece('Centrale',ennemi.nom,'');
-			 piece5.contientObjet.push(monArme.nomObjet);
-			 piece5.etatPorte = true;
+			 piece3.etatPorte = true;
+let piece4 = new Piece('Fontaine','','');
+			 piece4.contientObjet = '';
+			 piece4.etatPorte = false;
 
 function Clef(maCle){
 	this.nomClef = maCle;
@@ -127,51 +127,75 @@ function Clef(maCle){
 
 //function pour pour le menu
 function menu(){
-		console.log('2 - Piece ' + piece5.nomPiece);
-  		console.log('3 - Piece ' + piece2.nomPiece);
-		console.log('4 - Piece ' + piece3.nomPiece);
+		console.log('2 - Piece ' + piece2.nomPiece);
+  		console.log('3 - Piece ' + piece3.nomPiece);
+		console.log('4 - Piece ' + piece4.nomPiece);
 }
 
+
+
 function combattre(nomPiece){
-		if((monArme.nomObjet == nomPiece.contientObjet) || (ennemi.forceEnnemi <= joueur.forceJoueur)){
+	if(nomPiece.ennemiPiece == ennemi.nomEnnemi){
+		if((monArme.nomObjet == nomPiece.contientObjet) || (ennemi.forceEnnemi >= joueur.forceJoueur)){
 			ennemi.vieEnnemi = ennemi.vieEnnemi + (joueur.vieJoueur - 10);
-			console.log(ennemi.nomEnnemi + ' attaque et tue ' + joueur.nom + ' . sa nouvelle vie est : ' + ennemi.vieEnnemi);
+		    console.log(ennemi.nomEnnemi + ' attaque et tue ' + joueur.nom + ' . sa nouvelle vie est : ' + ennemi.vieEnnemi);
 			console.log('********************** GAME OVER ***********************');
 		}
 		else{
+			
 				joueur.objets = nomPiece.contientObjet;
 				joueur.vieJoueur += ennemi.vieEnnemi - 10;
-				console.log(joueur.nom + ' attaque et tue ' + ennemi.nomEnnemi);	
-		}
+				console.log(joueur.nom + ' attaque et tue ' + ennemi.nomEnnemi + '. sa nouvelle vie est : ' + joueur.vieJoueur);	
+				menu();
+				let choisir = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
+		    
+	   }
+
+	}else{
+		console.log('Ennemi n\'existe pas dans cette piece ' + nomPiece.nomPiece);
+	}
+		
 	
 }
 
 function deplacement(){
 	let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
+
   		piece1.JoueurPiece = NomduJour;
-  		if(choixPiece >= 1 && choixPiece <= 5){
+  		if((choixPiece >= 1) && (choixPiece <= 5)){
 	
-	  		if((choixPiece === 2) && (piece5.etatPorte === true) && (piece5.JoueurPiece == '')){
-			   joueur.deplacer(piece1,piece5);
-	  		   console.log(piece5.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece5.nomPiece + 
-	  		   '\n\nDescription : ' + '  ' + piece5.decrirePiece());	
-	  		   		joueur.prendreObjet(piece5);
-	  		   		combattre(piece5);
-			}
-	  		else if((choixPiece === 3) && (piece2.etatPorte === true) && (piece2.JoueurPiece == '')){
-			  	joueur.deplacer(piece1,piece2);
-			  	console.log(piece2.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece2.nomPiece + 
-	  		   '\nDescription : ' + '  ' + piece2.decrirePiece());	
+	  		if((choixPiece === 2) && (piece2.etatPorte === true) && (piece2.JoueurPiece == '')){
+			   joueur.deplacer(piece1,piece2);
+	  		   console.log(piece2.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece2.nomPiece + 
+	  		   '\n\nDescription : ' + '  ' + piece2.decrirePiece());	
 	  		   		joueur.prendreObjet(piece2);
 	  		   		combattre(piece2);
-	  		}
+	  		   		
+	  		   		/*menu();
+					let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));*/
 
-	  		else if((choixPiece === 4) && (piece3.etatPorte === true) && (piece3.JoueurPiece == '')){
-				joueur.deplacer(piece1,piece3);
-				console.log(piece3.JoueurPiece  + ' ' + 'quitte la piece ' + piece3.nomPiece + ' se trouve maintenant dans la piece ' + piece3.nomPiece + 
-	  		   '\nDescription : ' + '  ' + piece2.decrirePiece());	
+			}
+	  		else if((choixPiece === 3) && (piece3.etatPorte === true) && (piece3.JoueurPiece == '')){
+			  	joueur.deplacer(piece1,piece3);
+			  	console.log(piece3.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece3.nomPiece + 
+	  		   '\nDescription : ' + '  ' + piece3.decrirePiece());	
 	  		   		joueur.prendreObjet(piece3);
 	  		   		combattre(piece3);
+	  		}
+
+	  		else if((choixPiece === 4) &&(piece4.JoueurPiece == '')){
+				joueur.deplacer(piece1,piece4);
+					if(piece4.etatPorte === true){
+						console.log(piece4.JoueurPiece  + ' ' + 'quitte la piece ' + piece4.nomPiece + ' se trouve maintenant dans la piece ' + piece4.nomPiece + 
+	  		  			 '\nDescription : ' + '  ' + piece3.decrirePiece());	
+	  		   			joueur.prendreObjet(piece4);
+	  		   			combattre(piece4);
+					}
+					else{
+						console.log('la porte est fermée');
+					}
+
+				
 	  		}
 
 	  		else{
@@ -193,9 +217,11 @@ switch(choix){
   					joueur.nom = NomduJour;
   					console.log('Le nom du joueur est : ' + joueur.decrire() + ' et vous etes dans la piece ' + piece1.nomPiece);
   				}
+  			let option =[piece1,piece2,piece3,piece4];
+			for(let i = 0; i < option.length ; i++){
   					menu();
   					deplacement();
-  						
+  			}	
   		    break;
   						
   			case 2: 
