@@ -146,8 +146,7 @@ function combattre(nomPiece){
 				joueur.objets = nomPiece.contientObjet;
 				joueur.vieJoueur += ennemi.vieEnnemi - 10;
 				console.log(joueur.nom + ' attaque et tue ' + ennemi.nomEnnemi + '. sa nouvelle vie est : ' + joueur.vieJoueur);	
-				menu();
-				let choisir = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
+				//let choisir = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
 		    
 	   }
 
