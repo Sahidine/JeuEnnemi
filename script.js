@@ -9,9 +9,6 @@ console.log('2 - quitter');
   		let choix = Number(prompt('Veuillez selectionner un chiffre'));
   		let NomduJour;
   		let temoin = true;
-
-
-
 //Creation Objet**********************************
 function Armes(){
 	this.nomObjet = [];
@@ -31,12 +28,7 @@ const monArme = new Armes();
  		let decritEnnemi = 'l\'ennemi ' +  this.nomEnnemi + ' est present ' + this.vieEnnemi + ' et une force ' + this.forceEnnemi ; ;
  	     return decritEnnemi;
  	};
-let ennemi = new EnnemiJeu('Gongoli', 'Zombie', 50, 20);
-//console.log('je suis l\'ennemie ' + ennemi.nom + ' et de race ' + ennemi.race); 
-
-//Creation de l'Objet "Clef"************************
-
- 
+let ennemi = new EnnemiJeu('Gongoli', 'Zombie', 50, 20); 
 //Creation de l'Objet Piece********************************
 function Piece (nomPiece,ennemiPiece,nomjoueur){
  	this.nomPiece = nomPiece;
@@ -51,17 +43,8 @@ Piece.prototype.decrirePiece = function(){
 	var description = ' les objects : ' + this.contientObjet + ',  l\'etat de la porte ' + this.etatPorte  + ' et son ennemi' + ' ' + this.ennemiPiece ;
 	 return description;
 }
-Piece.prototype.entrer = function(){
-		let temoin = true;
-		if(Clef.ouvrir() == temoin){
-			//console.log(joueur.nom + ' est dans la piece ' /*+ ' ' + Piece.nomPiece*/);
-		}
-}
-
- 
 
 //Creation de la personne (joueur)++--
-
 function Personnage(monNom,maVie,maForce) {
 	this.nom = monNom;
 	this.vieJoueur = maVie;
@@ -109,31 +92,24 @@ let piece4 = new Piece('Fontaine','','');
 			 piece4.contientObjet = '';
 			 piece4.etatPorte = false;
 
-function Clef(maCle){
-	this.nomClef = maCle;
-	this.etatPorteClef = true;
-}
 
-	//-----Les methodes de l'objet "Clef"----------
-	Clef.prototype.ouvrir = function(piece){
-			if(piece.etatPorte == false){
-				clefMagic.etatPorteClef == piece.etatPorte;
-			}else{
-				console.log('La porte ' + ' ' + piece.nomPiece + ' ' + ' est ouverte');
-			}
+	//-----La fonction---------
+	function ouvrir(maPiece){
+		temoinClef = true;
+		if(maPiece.etatPorte == false){
+			 maPiece.etatPorte = temoinClef;
+			console.log('La porte ' + ' ' + maPiece.nomPiece + ' ' + ' est maintenant ouverte');
+		}else{
+			console.log('ne pas passé');
+		}
 	}
-	const clefMagic = Clef('maClefMigic',true);
-
-
+	
 //function pour pour le menu
 function menu(){
-		console.log('2 - Piece ' + piece2.nomPiece);
-  		console.log('3 - Piece ' + piece3.nomPiece);
-		console.log('4 - Piece ' + piece4.nomPiece);
+	console.log('2 - Piece ' + piece2.nomPiece);
+  	console.log('3 - Piece ' + piece3.nomPiece);
+  	console.log('4 - Piece ' + piece4.nomPiece);
 }
-
-
-
 function combattre(nomPiece){
 	if(nomPiece.ennemiPiece == ennemi.nomEnnemi){
 		if((monArme.nomObjet == nomPiece.contientObjet) || (ennemi.forceEnnemi >= joueur.forceJoueur)){
@@ -142,19 +118,14 @@ function combattre(nomPiece){
 			console.log('********************** GAME OVER ***********************');
 		}
 		else{
-			
 				joueur.objets = nomPiece.contientObjet;
 				joueur.vieJoueur += ennemi.vieEnnemi - 10;
-				console.log(joueur.nom + ' attaque et tue ' + ennemi.nomEnnemi + '. sa nouvelle vie est : ' + joueur.vieJoueur);	
-				//let choisir = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
-		    
+				console.log(joueur.nom + ' attaque et tue ' + ennemi.nomEnnemi + '. sa nouvelle vie est : ' + joueur.vieJoueur);			    
 	   }
 
 	}else{
 		console.log('Ennemi n\'existe pas dans cette piece ' + nomPiece.nomPiece);
-	}
-		
-	
+	}	
 }
 
 function deplacement(){
@@ -169,10 +140,6 @@ function deplacement(){
 	  		   '\n\nDescription : ' + '  ' + piece2.decrirePiece());	
 	  		   		joueur.prendreObjet(piece2);
 	  		   		combattre(piece2);
-	  		   		
-	  		   		/*menu();
-					let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));*/
-
 			}
 	  		else if((choixPiece === 3) && (piece3.etatPorte === true) && (piece3.JoueurPiece == '')){
 			  	joueur.deplacer(piece1,piece3);
@@ -182,7 +149,7 @@ function deplacement(){
 	  		   		combattre(piece3);
 	  		}
 
-	  		else if((choixPiece === 4) &&(piece4.JoueurPiece == '')){
+	  		else if((choixPiece === 4) && (piece4.JoueurPiece == '')){
 				joueur.deplacer(piece1,piece4);
 					if(piece4.etatPorte === true){
 						console.log(piece4.JoueurPiece  + ' ' + 'quitte la piece ' + piece4.nomPiece + ' se trouve maintenant dans la piece ' + piece4.nomPiece + 
@@ -191,12 +158,21 @@ function deplacement(){
 	  		   			combattre(piece4);
 					}
 					else{
-						console.log('la porte est fermée');
-					}
+						console.log('la porte est fermée. ');
+							console.log('      1 - OUI ' + '\n     2 - NON');
+							let choisir = Number(prompt('voulez vous l\'ouvrir?? '));
+							if(choisir === 1){
+								ouvrir(piece4);
+								console.log(piece4.JoueurPiece  + ' ' + 'quitte la piece ' + piece4.nomPiece + ' se trouve maintenant dans la piece ' + piece4.nomPiece + 
+	  		  			        '\nDescription : ' + '  ' + piece3.decrirePiece());	
+	  		   			         joueur.prendreObjet(piece4);
+	  		   			         combattre(piece4);
+							}else if(choisir === 2){
 
-				
+							}
+
+					}	
 	  		}
-
 	  		else{
 	  			console.log('le jour de gloire est arrivée');
 	  		}
@@ -217,6 +193,7 @@ switch(choix){
   					console.log('Le nom du joueur est : ' + joueur.decrire() + ' et vous etes dans la piece ' + piece1.nomPiece);
   				}
   			let option =[piece1,piece2,piece3,piece4];
+  			
 			for(let i = 0; i < option.length ; i++){
   					menu();
   					deplacement();
