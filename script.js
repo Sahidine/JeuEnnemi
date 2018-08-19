@@ -21,17 +21,17 @@ const monArme = new Armes();
 	monArme.nomObjet= ['couteau','marteau'];
  //Creation Ennemi********************************
  function EnnemiJeu(nomEnnemi, raceEnnemi,forceEnnemi,vieEnnemi){
- 	this.nom = nomEnnemi;
+ 	this.nomEnnemi = nomEnnemi;
  	this.race = raceEnnemi;
- 	this.force = forceEnnemi;
- 	this.vie = vieEnnemi;
+ 	this.forceEnnemi = forceEnnemi;
+ 	this.vieEnnemi = vieEnnemi;
  }
 
  EnnemiJeu.prototype.decrireEnnemi = function(){
  		let decritEnnemi = 'l\'ennemi ' +  this.nomEnnemi + ' est present ' + this.vieEnnemi + ' et une force ' + this.forceEnnemi ; ;
  	     return decritEnnemi;
  	};
-const ennemi = new EnnemiJeu('Gongoli', 'Zombie', 50, 20);
+let ennemi = new EnnemiJeu('Gongoli', 'Zombie', 50, 20);
 //console.log('je suis l\'ennemie ' + ennemi.nom + ' et de race ' + ennemi.race); 
 
 //Creation de l'Objet "Clef"************************
@@ -48,7 +48,7 @@ function Piece (nomPiece,ennemiPiece,nomjoueur){
 //----Les methodes de l'Objet "Piece"----
 
 Piece.prototype.decrirePiece = function(){
-	var description = ' les objects : ' + this.contientObjet + ',  l\'etat de la porte ' + this.etatPorte + ' et son ennemi' + ' ' + this.ennemiPiece ;
+	var description = ' les objects : ' + this.contientObjet + ',  l\'etat de la porte ' + this.etatPorte  + ' et son ennemi' + ' ' + this.ennemiPiece ;
 	 return description;
 }
 Piece.prototype.entrer = function(){
@@ -64,13 +64,13 @@ Piece.prototype.entrer = function(){
 
 function Personnage(monNom,maVie,maForce) {
 	this.nom = monNom;
-	this.vie = maVie;
-	this.force = maForce;
+	this.vieJoueur = maVie;
+	this.forceJoueur = maForce;
     this.objets = [];
 
 }
 	Personnage.prototype.decrire = function(){
-		const decritJoueur = 'Le joueur ' + this.nom + ' à la vie ' + this.vie + ' et une force ' + this.force ;
+		const decritJoueur = 'Le joueur ' + this.nom + ' à la vie ' + this.vieJoueur + ' et une force ' + this.forceJoueur ;
 		return decritJoueur;
 	};
 	Personnage.prototype.deplacer = function(pieceDepart,pieceDarrivee){
@@ -83,27 +83,27 @@ function Personnage(monNom,maVie,maForce) {
 	
 	Personnage.prototype.prendreObjet = function(nomPiece){
 
-		if(monArme.nomObjet == nomPiece.contientObjet){
-				  joueur.objets = [];
-				  console.log('le joueur ' + joueur.nom + ' à : 0 arme ');
-		}else{
-			joueur.objets = monArme.nomObjet;
+		if(nomPiece.contientObjet){
+		    joueur.objets.push(monArme.nomObjet) ;
 		    console.log('le joueur ' + joueur.nom + ' à pris les armes : ' + joueur.objets);
+		}else {
+			joueur.objets.push('');
+		    console.log('le joueur ' + joueur.nom + ' à : 0 arme ');
 		}
-		return joueur.objets ;
+		
 	}
 	//Creation de joueur
-	let joueur = new Personnage('',50,20);
+	let joueur = new Personnage('',30,10);
 
 //+++ Ajouter une piece +++
 let piece1 = new Piece('Jardin','',joueur.nom);
 	  		 piece1.contientObjet = ' ';
 	  		 piece1.etatPorte = true;
 let piece2 = new Piece('Suite',ennemi.nom,'');
-			 piece2.contientObjet.push(monArme.nomObjet);
+			 piece2.contientObjet = '';
 			 piece2.etatPorte = true;
 let piece3 = new Piece('Fontaine','','');
-			 piece3.contientObjet.push(monArme.nomObjet);
+			 piece3.contientObjet = '';
 			 piece3.etatPorte = false;
 let piece5 = new Piece('Centrale',ennemi.nom,'');
 			 piece5.contientObjet.push(monArme.nomObjet);
@@ -131,13 +131,21 @@ function menu(){
   		console.log('3 - Piece ' + piece2.nomPiece);
 		console.log('4 - Piece ' + piece3.nomPiece);
 }
-function existEnnemi(piece){
-	if(ennemi.nomEnnemi ==  piece.ennemiPiece){
-		console.log('avez des armes : ' + piece.ennemiPiece);
-	}else{
-		console.log('vous n\'avez pas d\'arme dans cette piece');
-	}
+
+function combattre(nomPiece){
+		if((monArme.nomObjet == nomPiece.contientObjet) || (ennemi.forceEnnemi <= joueur.forceJoueur)){
+			ennemi.vieEnnemi = ennemi.vieEnnemi + (joueur.vieJoueur - 10);
+			console.log(ennemi.nomEnnemi + ' attaque et tue ' + joueur.nom + ' . sa nouvelle vie est : ' + ennemi.vieEnnemi);
+			console.log('********************** GAME OVER ***********************');
+		}
+		else{
+				joueur.objets = nomPiece.contientObjet;
+				joueur.vieJoueur += ennemi.vieEnnemi - 10;
+				console.log(joueur.nom + ' attaque et tue ' + ennemi.nomEnnemi);	
+		}
+	
 }
+
 function deplacement(){
 	let choixPiece = Number(prompt('Choisissez une piece de 2 à 5 pour vous deplacer'));
   		piece1.JoueurPiece = NomduJour;
@@ -146,21 +154,24 @@ function deplacement(){
 	  		if((choixPiece === 2) && (piece5.etatPorte === true) && (piece5.JoueurPiece == '')){
 			   joueur.deplacer(piece1,piece5);
 	  		   console.log(piece5.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece5.nomPiece + 
-	  		   '\nDescription : ' + '  ' + piece5.decrirePiece());	
+	  		   '\n\nDescription : ' + '  ' + piece5.decrirePiece());	
 	  		   		joueur.prendreObjet(piece5);
-	  		   		combattre();
+	  		   		combattre(piece5);
 			}
 	  		else if((choixPiece === 3) && (piece2.etatPorte === true) && (piece2.JoueurPiece == '')){
 			  	joueur.deplacer(piece1,piece2);
 			  	console.log(piece2.JoueurPiece  + ' ' + 'quitte la piece ' + piece1.nomPiece + ' se trouve maintenant dans la piece ' + piece2.nomPiece + 
 	  		   '\nDescription : ' + '  ' + piece2.decrirePiece());	
 	  		   		joueur.prendreObjet(piece2);
-	  		   		combattre();
+	  		   		combattre(piece2);
 	  		}
 
 	  		else if((choixPiece === 4) && (piece3.etatPorte === true) && (piece3.JoueurPiece == '')){
 				joueur.deplacer(piece1,piece3);
-	  			console.log(piece3.JoueurPiece  + ' se trouve dans la piece ' + ' ' + piece3.nomPiece);
+				console.log(piece3.JoueurPiece  + ' ' + 'quitte la piece ' + piece3.nomPiece + ' se trouve maintenant dans la piece ' + piece3.nomPiece + 
+	  		   '\nDescription : ' + '  ' + piece2.decrirePiece());	
+	  		   		joueur.prendreObjet(piece3);
+	  		   		combattre(piece3);
 	  		}
 
 	  		else{
@@ -171,18 +182,7 @@ function deplacement(){
 		 		console.log('nombre ' + choixPiece + ' ne se trouve pas dans l\'interval');
 	  	}
 }
-function combattre(){
-	if((ennemi.force <= joueur.force) || (ennemi.force >= joueur.force) && (joueur.objets == monArme.nomObjet)){
-		joueur.vie += ennemi.vie - 10;
-		console.log(joueur.nom + ' attaque et tue ' + ennemi.nom);
-	}else if ((ennemi.force <= joueur.force) || (ennemi.force >= joueur.force) && (joueur.objets != monArme.nomObjet)) {
-		ennemi.vie += joueur.vie - 10;
-		console.log('Game Over');
-	}
-	else{
-		console.log('revoir le code');
-	}
-}
+
 switch(choix){
   			case 1: 
   				console.log('---Pour commencer le jeu, inscriver vous');
