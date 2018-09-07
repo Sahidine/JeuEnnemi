@@ -40,7 +40,7 @@ function Piece (nomPiece,ennemiPiece,nomjoueur){
 //----Les methodes de l'Objet "Piece"----
 
 Piece.prototype.decrirePiece = function(){
-	var description = ' les objects : ' + this.contientObjet + ',  l\'etat de la porte ' + this.etatPorte  + ' et son ennemi' + ' ' + this.ennemiPiece ;
+	var description = ' les objects : ' + this.contientObjet == true ? this.contientObjet : " 0 armes" + ',  l\'etat de la porte ' + this.etatPorte  + ' et son ennemi' + ' ' + this.ennemiPiece ;
 	 return description;
 }
 
@@ -88,8 +88,8 @@ let piece2 = new Piece('Centrale',ennemi.nomEnnemi,'');
 let piece3 = new Piece('Suite','','');
 			 piece3.contientObjet = '';
 			 piece3.etatPorte = true;
-let piece4 = new Piece('Fontaine','','');
-			 piece4.contientObjet = '';
+let piece4 = new Piece('Fontaine',ennemi.nomEnnemi,'');
+			 piece4.contientObjet.push(monArme.nomObjet);
 			 piece4.etatPorte = false;
 
 
@@ -152,7 +152,7 @@ function deplacement(){
 	  		else if((choixPiece === 4) && (piece4.JoueurPiece == '')){
 				joueur.deplacer(piece1,piece4);
 					if(piece4.etatPorte === true){
-						console.log(piece4.JoueurPiece  + ' ' + 'quitte la piece ' + piece4.nomPiece + ' se trouve maintenant dans la piece ' + piece4.nomPiece + 
+						console.log(piece4.JoueurPiece  + ' ' + ' se trouve maintenant dans la piece ' + piece4.nomPiece + 
 	  		  			 '\nDescription : ' + '  ' + piece3.decrirePiece());	
 	  		   			joueur.prendreObjet(piece4);
 	  		   			combattre(piece4);
@@ -164,7 +164,7 @@ function deplacement(){
 							if(choisir === 1){
 								ouvrir(piece4);
 								console.log(piece4.JoueurPiece  + ' ' + 'quitte la piece ' + piece4.nomPiece + ' se trouve maintenant dans la piece ' + piece4.nomPiece + 
-	  		  			        '\nDescription : ' + '  ' + piece3.decrirePiece());	
+	  		  			        '\nDescription : ' + '  ' + piece4.decrirePiece());	
 	  		   			         joueur.prendreObjet(piece4);
 	  		   			         combattre(piece4);
 							}else if(choisir === 2){
